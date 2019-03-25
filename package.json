@@ -1,0 +1,26 @@
+{
+  "name": "pwd-demo",
+  "version": "1.0.0",
+  "description": "trying to create pwa demo app and boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "deepakgcsevpm@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "await-to-js": "^2.0.1",
+    "bluebird": "^3.5.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "mongoose": "^5.4.19",
+    "node-gcm": "^1.0.2",
+    "only": "^0.0.2",
+    "winston": "^3.1.0"
+  }
+}
