@@ -25,8 +25,10 @@ app.use(express.static(path.join(__dirname, '/app/views')))
 
 app.use('/fcm', require('./app/router/fcm'));
 
-app.get('/', function(req, res, next){
+app.get('/', (req, res, next) => {
   return res.render('index.ejs', { message: "You can access this site offline (Message from server - EJS data bindings)" });
 })
+
+app.get('/storage', (req, res, next) => res.render('storage'));
 
 app.listen(3000, () => console.log('app listening on port 3000!'))

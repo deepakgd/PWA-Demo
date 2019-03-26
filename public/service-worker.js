@@ -2,12 +2,11 @@ const cacheName = 'pwa-demo-v1';
 
 const filesToCache = [
     '/',
-    '/index.ejs',
-    '/partials/header.ejs',
-    '/partials/footer.ejs',
+    '/storage',
     '/css/style.css',
     '/js/app.js',
     '/js/menu.js',
+    '/js/all.js',
     '/images/refresh.svg',
     '/images/pwa.png'
 ]
