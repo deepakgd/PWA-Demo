@@ -3,7 +3,7 @@ const to = require('await-to-js').to,
     gcm = require('node-gcm');
 
 const config = require('../../config'),
-    Fcmuser = require('../models/fcmusers'),
+    Subscribers = require('../models/subscribers'),
     FcmMessage = require('../models/fcmmessages');
 
 // gcm.Promise = require('bluebird');
@@ -13,47 +13,85 @@ module.exports = {
      */
     getUsers: function(){
         return new Promise(async (resolve, reject)=>{
-            let [error, users] = await to(Fcmuser.find({}));
+            let [error, users] = await to(Subscribers.find({}));
             if(error) return reject({ status: 500, error: error });
             resolve(users);
         })
     },
     /**
-     * createUser - save user_id for firebase cloud messaging 
-     * @param {OBJECT} body - contains user id for fcm and user_id is browser notification id
+     * subscribeUser - save subscription_id for firebase cloud messaging 
+     * @param {OBJECT} body - contains subscription_id  of brower for push notification
      */
-    createUser: function(body){
+    subscribeUser: function(body){
         return new Promise(async (resolve, reject)=>{
-            var fcmuser = new Fcmuser(only(body, "user_id"));
-            let [error, response] = await to(fcmuser.save());
+            let subscriber = new Subscribers(only(body, "subscription_id"));
+            let [error, response] = await to(subscriber.save());
             if(error) return reject({ status: 500, error: error });
-            return resolve({ message: "User Id saved" })
+            return resolve({ message: "Subscribed successfully" })
         })
     },
+    /**
+     * unsubscribeUser - unsubscribe user from push notification
+     * @param {OBJECT} body - contains subscription_id of browser to unsubscribe push notification
+     */
+    unsubscribeUser: function(body){
+        return new Promise(async (resolve, reject) => {
+            let [error, response] = await to(Subscribers.findOneAndDelete({ subscription_id: body.subscription_id }));
+            if(error) return reject({ status: 500, error: error });
+            return resolve({ message: "Unsubscribed" })
+        })
+    },
+    /**
+     * notifyUsers - send custom push notification message to subscribed users
+     * @param {OBJECT} body - contains title and body for push notification 
+     */
     notifyUsers: function(body){
         return new Promise(async (resolve, reject) => {
-            let [error, user_ids] = await to(Fcmuser.distinct("_id")); // get only _id as array
+            // get all subscribers subscription_ids as array
+            let [error, subscription_ids] = await to(Subscribers.distinct("subscription_id")); 
             if(error) return reject({ status: 500, error: error });
-            // let 
 
-            var sender = new gcm.Sender(config.fcm);
+            // init GCM with API key
+            let sender = new gcm.Sender(config.fcm);
 
-             // Prepare a message to be sent
-            var message = new gcm.Message({
+            // push notification content
+            let title = body.title || "Default Title";
+            let content = body.body || "Default body content";
+
+            let fcmmessage = new FcmMessage(only(body, 'title body'))
+            let [saveError, response] = await to(fcmmessage.save());
+            if(saveError) return reject({ status: 500, error: saveError });
+
+            // Prepare a message to be sent
+            let message = new gcm.Message({
                 notification: {
-                    title: "Hello, World",
-                    icon: "/images/192x192.png",
-                    body: "Click to see the latest commit"
+                    title,
+                    body: content
                 }
             });
 
-            sender.send(message, { registrationTokens: user_ids }, function (err, response) {
+            sender.send(message, { registrationTokens: subscription_ids }, function (err, response) {
                 if (err) {
-                    console.error(err);
+                    reject({ status: 500, error: err });
                 } else {
-                return res.json(response);
+                    return resolve(response);
                 } 
             });
+        })
+    },
+    /**
+     * getLastNoitificationTemplate - return last notification template 
+     */
+    getLastNoitificationTemplate: function(){
+        return new Promise(async (resolve, reject) => {
+            let [error, template] = await to(FcmMessage.findOne({}, {}, { sort: { createdAt: -1 } }));
+            if(error) return reject({ status: 500, error: error });
+            resolve({
+                title: template.title,
+                options: {
+                    body: template.body
+                }
+            })
         })
     }
 }
