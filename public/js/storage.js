@@ -5,7 +5,7 @@ export default{
             var data = localStorage.getItem('ipdetails') || undefined;
             if(data){
                 data = JSON.parse(data)
-                document.getElementById('ipaddr').innerHTML = data.query;
+                document.getElementById('ipaddr').innerHTML = data.query || data.ip;
                 document.getElementById('city').innerHTML = data.city;
             }else{
                 // fetch data from api

@@ -66,5 +66,14 @@ app.get('/storage', (req, res, next) => res.render('storage', { webpack: req.app
 // return pushnotification page with webpack object
 app.get('/pushnotification', (req, res, next) => res.render('pushnotification', { webpack: req.app.get('webpack') }));
 
+// return camera page with webpack object
+app.get('/camera', (req, res, next) => res.render('camera', { webpack: req.app.get('webpack') }));
+
+// return geolocation page with webpack object
+app.get('/geolocation', (req, res, next) => res.render('geolocation', { webpack: req.app.get('webpack') }));
+
+// return morefeatures page with webpack object
+app.get('/morefeatures', (req, res, next) => res.render('morefeatures', { webpack: req.app.get('webpack') }));
+
 // app listening to port 3000
 app.listen(3000, () => console.log('app listening on port 3000!'))

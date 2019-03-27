@@ -1,0 +1,80 @@
+<% include ./partials/header %>
+<section class="card_container">
+    <h2 style="margin-top:70px;" align="center">More Features</h2>
+
+    <div class="container">
+        <section class="card first">
+            <h3>File upload - Access file system</h3>
+            <input type="file" accept="image/*" id="file-input">
+           
+        </section>
+        <section class="card second">
+            <h3>File upload - Access camera</h3>
+            <input type="file" accept="image/*" capture>
+            <!-- <input type="file" accept="image/*" capture="user"> -->   <!-- front camera - not checked but feature available -->
+            <!-- <input type="file" accept="image/*" capture="environment"> --> <!-- back camera - not checked but feature available -->
+        </section>
+
+        <section class="card first">
+            <h3 align="center">Application Used and Available Storage</h3>
+            <div><b>Estimated storage usage:</b><span id="usedStorage"></span></div>
+            <div><b>Estimated storage quota:</b><span id="availableStorage"></span></div>
+         </section>
+
+        <section class="card second">
+            <h3 align="center">Device Motion</h3>
+            <table class="table table-striped table-bordered">
+                 <tr>
+                   <td>API used</td>
+                   <td id="moApi"></td>
+                 </tr>
+                 <tr>
+                   <td>linear acceleration (excl. gravity)</td>
+                   <td id="moAccel"></td>
+                 </tr>
+                 <tr>
+                   <td>acceleration incl. gravity</td>
+                   <td id="moAccelGrav"></td>
+                 </tr>
+                 <tr>
+                   <td>rotation rate</td>
+                   <td id="moRotation"></td>
+                 </tr>
+                 <tr>
+                   <td>interval (ms)</td>
+                   <td id="moInterval"></td>
+                 </tr>
+               </table>
+        </section>
+         
+     
+
+        <section class="card third">
+            <h3 align="center">Vibration</h3>
+            <button class="btn btn-default" id="vibrateSimple">Vibrate for 200 ms</button>
+            <button class="btn btn-default" id="vibratePattern">Vibrate with pattern</button>
+        </section>
+
+
+        <section class="card fourth">
+            <h3>Battery</h3>
+            <p>Initial battery status was <b id="charging">unknown</b>, charging time <b id="chargingTime">unknown</b>, discharging time <b id="dischargingTime">unknown</b>, level <b id="level">unknown</b>.</p>
+            <div id="target"></div>
+        </section>
+
+        <section class="card fifth">
+            <h3>Device Memory</h3>
+            Your device memory is <b id="deviceMemory">unknown</b> GiB.
+        </section>
+
+
+        <section class="card sixth">
+            <h3>Network type and Speed</h3>
+            <p>Current theoretical network type is <b id="networkType">not available</b>.</p>
+            <p>Current effective network type is <b id="effectiveNetworkType">not available</b>.</p>
+            <p>Current max downlink speed is <b id="downlinkMax">not available</b>.
+        </section>
+    </div>
+  </section>
+  
+<% include ./partials/footer %>

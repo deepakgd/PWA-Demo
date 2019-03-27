@@ -1,18 +1,31 @@
-import app from './js/app'
-import pushnotification from './js/pushnotification'
-import storage from './js/storage'
+import app from './js/app';
+import pushnotification from './js/pushnotification';
+import storage from './js/storage';
+import camera from './js/camera';
+import geolocation from './js/geolocation';
+import morefeatures from './js/morefeatures';
 import './style/main.css';
 
+// globally accessible
 window.baseUrl = "https://58821a93.ngrok.io";
 app.init()
 
-
-switch(location.pathname){
+// pathname based operation
+switch(location.pathname){ // TODO: run this in one line
     case "/storage": 
         storage.init();
         break;
     case "/pushnotification":
         pushnotification.init();
+        break;
+    case "/camera":
+        camera.init();
+        break;
+    case "/geolocation":
+        geolocation.init();
+        break;
+    case "/morefeatures":
+        morefeatures.init();
         break;
 }
 
